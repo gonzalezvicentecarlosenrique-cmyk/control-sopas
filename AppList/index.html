@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Pedidos - Sopa de Gallina</title>
+    <!-- Fuentes de Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- BARRA SUPERIOR / HEADER -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="brand-title">
+                <span class="brand-icon">🍲</span>
+                <div>
+                    <h1>Control de Pedidos</h1>
+                    <p>Sopas de Gallina - Gestión de Entregas y Pagos</p>
+                </div>
+            </div>
+            <button id="btnCerrarSesion" class="btn-logout" title="Cerrar Sesión">
+                <span>🚪</span> Salir
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- NAVEGACIÓN ENTRE PANTALLAS -->
+        <nav class="nav-tabs" style="display: flex; gap: 12px; margin-bottom: 24px;">
+            <a href="index.html" class="nav-link active" style="text-decoration:none; color:white; padding:10px 20px; border-radius:9999px; background:var(--primary); font-weight:600; font-size:0.9rem;">📋 Lista de Pedidos</a>
+            <a href="inventario.html" class="nav-link" style="text-decoration:none; color:var(--text-muted); padding:10px 20px; border-radius:9999px; background:var(--bg-card); border:1px solid var(--border-color); font-weight:600; font-size:0.9rem;">📊 Inventario, Tabla y Finanzas</a>
+        </nav>
+
+        <!-- DASHBOARD / CARDS DE RESUMEN Y FINANZAS -->
+        <section class="summary-cards">
+            <div class="card total">
+                <div class="card-content">
+                    <div>
+                        <h3>Total Sopas</h3>
+                        <span id="totalSopas">0</span>
+                    </div>
+                    <div class="card-icon">📊</div>
+                </div>
+            </div>
+
+            <div class="card entregadas">
+                <div class="card-content">
+                    <div>
+                        <h3>Entregadas</h3>
+                        <span id="totalEntregadas">0</span>
+                    </div>
+                    <div class="card-icon">✅</div>
+                </div>
+            </div>
+
+            <div class="card pendientes">
+                <div class="card-content">
+                    <div>
+                        <h3>Pendientes Entregas</h3>
+                        <span id="totalPendientes">0</span>
+                    </div>
+                    <div class="card-icon">⏳</div>
+                </div>
+            </div>
+
+            <!-- MÉTRICAS FINANCIERAS -->
+            <div class="card entregadas" style="border-left-color: #10B981;">
+                <div class="card-content">
+                    <div>
+                        <h3>Cobrado / Pagado</h3>
+                        <span id="totalCobrado" style="color: #34D399;">$0.00</span>
+                    </div>
+                    <div class="card-icon">💵</div>
+                </div>
+            </div>
+
+            <div class="card pendientes" style="border-left-color: #EF4444;">
+                <div class="card-content">
+                    <div>
+                        <h3>Por Cobrar (Pendiente)</h3>
+                        <span id="totalPorCobrar" style="color: #F87171;">$0.00</span>
+                    </div>
+                    <div class="card-icon">💸</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FORMULARIO PARA AGREGAR / EDITAR PEDIDOS -->
+        <section class="form-section">
+            <div class="form-header">
+                <span style="font-size: 1.2rem;">📝</span>
+                <h2 id="formTitle">Agregar Nuevo Pedido</h2>
+            </div>
+
+            <form id="pedidoForm">
+                <input type="hidden" id="pedidoId">
+
+                <div class="form-group col-md-4">
+                    <label for="nombreCliente">Nombre del Cliente / Persona *</label>
+                    <input type="text" id="nombreCliente" placeholder="Ej. Juan Carlos" required autocomplete="off">
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label for="cantidadSopas">Platos *</label>
+                    <input type="number" id="cantidadSopas" min="1" value="1" required>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="precioMonto">Monto Total ($)</label>
+                    <div style="display: flex; gap: 6px; align-items: center;">
+                        <input type="number" step="0.01" id="precioMonto" placeholder="Ej. 5.00" style="flex: 1;">
+                        <button type="button" id="btnTipoPreventa" class="btn btn-secondary" style="padding: 8px 12px; font-size: 0.78rem; background: rgba(59, 130, 246, 0.2); color: #60A5FA; border-color: rgba(59, 130, 246, 0.4);" title="Tarifa Preventa ($5.00)">
+                            🎟️ $5
+                        </button>
+                        <button type="button" id="btnTipoEvento" class="btn btn-secondary" style="padding: 8px 12px; font-size: 0.78rem; background: rgba(245, 158, 11, 0.2); color: #FBBF24; border-color: rgba(245, 158, 11, 0.4);" title="Tarifa Evento ($6.00)">
+                            🎪 $6
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="referenciaDescripcion">Descripción / Referencia (Opcional)</label>
+                    <input type="text" id="referenciaDescripcion" placeholder="Ej. Pilanga, El Tejar, Jar..." autocomplete="off">
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="grupoPedido">Grupo / Pedido Especial (Opcional)</label>
+                    <input type="text" id="grupoPedido" placeholder="Ej. Pedido Simón Segovia, Pedido Juan Carlos..." autocomplete="off">
+                </div>
+
+                <div class="form-group col-12" style="margin-top: 5px;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="checkPagado" style="width: 20px; height: 20px;">
+                        <span style="font-size: 0.95rem; font-weight: 700; color: var(--success);">¿Ya está Pagado?</span>
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" id="btnGuardar" class="btn btn-primary">
+                        <span>💾</span> Guardar Pedido
+                    </button>
+                    <button type="button" id="btnCancelar" class="btn btn-secondary" style="display:none;">
+                        <span>✖</span> Cancelar
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- BUSCADOR Y FILTROS -->
+        <section class="controls-section">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="inputBuscar" placeholder="Buscar por cliente, referencia o grupo..." autocomplete="off">
+            </div>
+
+            <div class="filter-buttons">
+                <button class="btn-filter active" data-filter="todos">Todos</button>
+                <button class="btn-filter" data-filter="pendientes">Pendientes Entrega</button>
+                <button class="btn-filter" data-filter="no-pagados">Falta Pago 🔴</button>
+                <button class="btn-filter" data-filter="pagados">Pagados 🟢</button>
+            </div>
+        </section>
+
+        <!-- LISTADO DE PEDIDOS -->
+        <section class="list-section">
+            <h2>Listado de Entregas</h2>
+            <ul id="listaPedidos" class="pedidos-list">
+                <!-- Se genera dinámicamente desde JavaScript -->
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- ARCHIVOS JAVASCRIPT -->
+    <script src="database_data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Control de Sopas</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos específicos para la pantalla de Login */
+        .login-body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f6f8;
+        }
+
+        .login-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-card h2 {
+            color: #c0392b;
+            margin-bottom: 8px;
+            font-size: 1.6rem;
+        }
+
+        .login-card p {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+
+        .login-form .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .login-form button {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+            display: none;
+        }
+    </style>
+</head>
+<body class="login-body">
+
+    <div class="login-card">
+        <h2>🍲 Control de Sopas</h2>
+        <p>Ingrese sus credenciales para gestionar el evento</p>
+
+        <div id="errorMessage" class="error-message">
+            Usuario o contraseña incorrectos.
+        </div>
+
+        <form id="loginForm" class="login-form">
+            <div class="form-group">
+                <label for="usuario">Usuario *</label>
+                <input type="text" id="usuario" placeholder="Ej. admin" required autocomplete="username">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Contraseña / PIN *</label>
+                <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Ingresar al Sistema</button>
+        </form>
+    </div>
+
+    <script src="login.js"></script>
+</body>
+</html>
